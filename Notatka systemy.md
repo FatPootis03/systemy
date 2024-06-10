@@ -6,6 +6,10 @@
 | [[#3. Generowanie liczb pseudolosowych]] |
 | [[#4.Procesy (]]                         |
 | [[#5.C Pipe()]]                          |
+| [[#6.mkfifo]]                            |
+| [[#7. Wątki]]                            |
+| [[#8. Mechanizmy IPC]]                   |
+| [[#9. Docker]]                           |
 
 
 
