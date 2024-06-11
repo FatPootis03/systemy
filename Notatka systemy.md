@@ -665,6 +665,67 @@ int main() {
     return 0;
 }
 ```
+#### Kończenie wątków
+
+##### pthread_join
+`pthread_join` służy do synchronizacji wątków. Pozwala jednemu wątkowi (zazwyczaj wątkowi głównemu) czekać na zakończenie innego wątku. Funkcja ta ma następującą sygnaturę:
+
+```C
+int pthread_join(pthread_t thread, void **retval);
+```
+
+- `thread`: identyfikator wątku, na który czekamy.
+- `retval`: wskaźnik do wskaźnika, który przechowuje wartość zwróconą przez funkcję wątku (jeśli wątek zakończy się normalnie).
+
+Działanie `pthread_join`:
+
+1. **Blokowanie wątku wywołującego**: Wątek, który wywołuje `pthread_join`, jest blokowany (wstrzymywany) do momentu zakończenia wskazanego wątku.
+2. **Pobranie wartości zwróconej przez wątek**: Po zakończeniu wskazanego wątku, wartość zwrócona przez ten wątek (jeśli istnieje) jest zapisywana w lokalizacji wskazywanej przez `retval`.
+3. **Zwrot zasobów**: `pthread_join` również powoduje, że system operacyjny zwraca zasoby używane przez zakończony wątek.
+###### Przykład:
+```C
+pthread_t thread;
+void *result;
+
+// Tworzenie i uruchamianie wątku
+pthread_create(&thread, NULL, myThreadFunction, NULL);
+
+// Czekanie na zakończenie wątku
+pthread_join(thread, &result);
+
+// Można teraz użyć wyniku zwróconego przez wątek (jeśli został zwrócony)
+```
+
+##### pthread_cancel
+`pthread_cancel` służy do anulowania wątku. Funkcja ta ma następującą sygnaturę:
+
+```C
+int pthread_cancel(pthread_t thread);
+```
+
+`thread`: identyfikator wątku, który chcemy anulować.
+
+**Działanie `pthread_cancel`**:
+
+1. **Wysłanie żądania anulowania**: `pthread_cancel` wysyła żądanie anulowania do wskazanego wątku. Żądanie anulowania jest asynchroniczne - wątek może nie zakończyć się natychmiast.
+2. **Punkty anulowania**: Wątek sprawdza, czy otrzymał żądanie anulowania w tzw. "punktach anulowania" (cancellation points). Punkty te są miejscami w kodzie, gdzie wątek może zostać bezpiecznie przerwany. Niektóre funkcje standardowe, jak `pthread_testcancel`, `sleep`, `read`, itp., są takimi punktami.
+3. **Zachowanie wątku**: Domyślnie, wątek może być anulowany, ale można to zmienić ustawiając odpowiednie atrybuty wątku (`pthread_setcancelstate` i `pthread_setcanceltype`).
+
+###### Przykład:
+```C
+pthread_t thread;
+
+// Tworzenie i uruchamianie wątku
+pthread_create(&thread, NULL, myThreadFunction, NULL);
+
+// Anulowanie wątku
+pthread_cancel(thread);
+
+// Czekanie na zakończenie wątku
+pthread_join(thread, NULL);
+```
+
+W tym przykładzie `pthread_cancel` wysyła żądanie anulowania do wątku, a `pthread_join` czeka, aż wątek rzeczywiście zakończy działanie. Po anulowaniu wątku, `pthread_join` jest nadal potrzebne, aby upewnić się, że zasoby używane przez wątek zostaną zwrócone.
 
 ### Synchronizacja wątków
 
