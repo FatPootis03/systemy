@@ -27,6 +27,81 @@ int main()
 }
 ```
 
+### Zmienna globalna
+
+W języku C zmienna globalna jest zmienną zdefiniowaną poza wszystkimi funkcjami, zwykle na początku pliku, i jest dostępna dla wszystkich funkcji w tym pliku. Jeśli chcesz, aby zmienna globalna była dostępna w innych plikach, musisz ją zadeklarować przy użyciu słowa kluczowego `extern`.
+
+```C
+#include <stdio.h>
+
+// Definicja zmiennej globalnej
+int globalVariable = 42;
+
+void printGlobalVariable() {
+    printf("Global variable: %d\n", globalVariable);
+}
+
+int main() {
+    printGlobalVariable();
+    globalVariable = 100;
+    printGlobalVariable();
+    return 0;
+}
+```
+
+### Zmienna środowiskowa
+
+#### Ustawianie zmiennej środowiskowej
+
+Aby ustawić zmienną środowiskową, możesz użyć funkcji `setenv` lub `putenv`.
+
+```C
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    // Ustawianie zmiennej środowiskowej
+    if (setenv("MY_VARIABLE", "Hello, World!", 1) != 0) {
+        perror("setenv");
+        return 1;
+    }
+
+    // Odczytywanie zmiennej środowiskowej
+    char *value = getenv("MY_VARIABLE");
+    if (value != NULL) {
+        printf("MY_VARIABLE: %s\n", value);
+    } else {
+        printf("Zmiennej środowiskowej MY_VARIABLE nie znaleziono.\n");
+    }
+
+    return 0;
+}
+
+```
+
+- Pierwszy argument `setenv` to nazwa zmiennej.
+- Drugi argument to wartość zmiennej.
+- Trzeci argument (1) oznacza, że jeśli zmienna już istnieje, to jej wartość zostanie zastąpiona nową wartością. Ustawienie tego argumentu na 0 zapobiegnie zastąpieniu istniejącej wartości.
+#### Odczytywanie zmiennej środowiskowej
+
+```C
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    // Odczytywanie zmiennej środowiskowej PATH
+    char *path = getenv("PATH");
+
+    if (path != NULL) {
+        printf("PATH: %s\n", path);
+    } else {
+        printf("Zmiennej środowiskowej PATH nie znaleziono.\n");
+    }
+
+    return 0;
+}
+```
+
 ---
 
 ## 2.Funkcje wejścia/wyjścia w C:
