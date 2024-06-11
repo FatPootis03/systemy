@@ -827,27 +827,78 @@ void* thread_function(void* arg) {
 #include <stdlib.h>
 #include <pthread.h>
 
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-int counter = 0;
+// Deklaracja mutexa
+pthread_mutex_t mutex;
 
-void* increment_counter(void* arg) {
-    for (int i = 0; i < 100000; i++) {
+// Współdzielony zasób
+int sharedCounter = 0;
+
+void* incrementCounter(void* arg) {
+    for (int i = 0; i < 1000000; i++) {
+        // Zablokowanie mutexa przed dostępem do współdzielonego zasobu
         pthread_mutex_lock(&mutex);
-        counter++;
+        sharedCounter++;
+        // Odblokowanie mutexa po zakończeniu dostępu
         pthread_mutex_unlock(&mutex);
     }
     return NULL;
 }
+
 int main() {
+    // Inicjalizacja mutexa
+    pthread_mutex_init(&mutex, NULL);
+
     pthread_t thread1, thread2;
-    pthread_create(&thread1, NULL, increment_counter, NULL);
-    pthread_create(&thread2, NULL, increment_counter, NULL);
+
+    // Tworzenie wątków
+    pthread_create(&thread1, NULL, incrementCounter, NULL);
+    pthread_create(&thread2, NULL, incrementCounter, NULL);
+
+    // Czekanie na zakończenie wątków
     pthread_join(thread1, NULL);
     pthread_join(thread2, NULL);
-    printf("Final counter value: %d\n", counter);
+
+    // Zniszczenie mutexa
+    pthread_mutex_destroy(&mutex);
+
+    // Wyświetlenie końcowej wartości współdzielonego zasobu
+    printf("Final counter value: %d\n", sharedCounter);
+
     return 0;
 }
 ```
+
+#### Szczegółowe wyjaśnienie
+
+1. **Deklaracja mutexa**:
+```C
+pthread_mutex_t mutex;
+```
+
+Zmienna `mutex` zostaje zadeklarowana jako `pthread_mutex_t`.
+
+2. **Inicjalizacja mutexa:** 
+```C
+pthread_mutex_init(&mutex, NULL);
+```
+
+Mutex jest inicjalizowany za pomocą `pthread_mutex_init`.
+
+3.  **Zablokowanie i odblokowanie mutexa**:
+```C
+pthread_mutex_lock(&mutex);
+sharedCounter++;
+pthread_mutex_unlock(&mutex);
+```
+
+Wątek blokuje mutex przed dostępem do `sharedCounter`, zwiększa `sharedCounter` i następnie odblokowuje mutex.
+
+4. Zniszczenie mutexa:
+```C
+pthread_mutex_destroy(&mutex);
+```
+
+Po zakończeniu używania mutexa jest on niszczony za pomocą `pthread_mutex_destroy`.
 ### Podsumowanie
 
 - **Wątki**: Używane do równoległego wykonywania kodu w ramach tego samego procesu.
