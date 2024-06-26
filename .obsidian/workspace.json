@@ -4,37 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "bd1428c061628be4",
+        "id": "946d4d542a0291d6",
         "type": "tabs",
         "children": [
           {
-            "id": "2ec7f4d3a5a97c1b",
+            "id": "0c239b422203fffb",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Zadania.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          }
-        ]
-      },
-      {
-        "id": "57e5c67ef74850cb",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "ac8d5ef59efa3a27",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Notatka systemy.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -87,8 +65,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "eb11729d96aa9890",
@@ -104,7 +81,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Notatka systemy.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -121,7 +97,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Notatka systemy.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -143,9 +118,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "Notatka systemy.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -165,8 +138,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ac8d5ef59efa3a27",
+  "active": "0c239b422203fffb",
   "lastOpenFiles": [
+    "Untitled.canvas",
     "Zadania.md",
     "Notatka systemy.md"
   ]
